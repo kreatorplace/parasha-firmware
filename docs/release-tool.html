@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Parasha Display · Release Tool</title>
+<style>
+:root{--bg:#f4f2ee;--card:#fff;--ink:#16130f;--mute:#6b645b;--line:#ddd6cb;--ok:#1f7a3a;--bad:#b3261e;--acc:#16130f}
+@media (prefers-color-scheme:dark){:root{--bg:#171512;--card:#211e1a;--ink:#f1ece4;--mute:#a59d92;--line:#3a352f;--ok:#5cc27a;--bad:#ff8a80;--acc:#f1ece4}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}p{margin:0 0 10px}.mute{color:var(--mute)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}
+button,.btn{font:inherit;font-weight:600;border-radius:10px;border:2px solid var(--acc);background:var(--acc);color:var(--bg);padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+button.sec{background:transparent;color:var(--acc)}button:disabled{opacity:.4;cursor:default}
+label.file{display:block;border:2px dashed var(--line);border-radius:12px;padding:14px;margin:8px 0;cursor:pointer}
+label.file input{display:block;margin-top:6px}
+code,.mono{font-family:ui-monospace,Consolas,monospace;font-size:13px;word-break:break-all}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:8px;background:transparent;color:var(--ink)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}ol{padding-left:20px}li{margin:4px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+table{border-collapse:collapse;width:100%;margin:8px 0}td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:top}
+.warn{border-left:4px solid var(--bad);padding:8px 12px;background:transparent}
+</style>
+</head>
+<body>
+<main>
+<h1>Parasha Display · Release Tool</h1>
+<p class="mute">Everything here runs in this browser only. Your signing key is never sent anywhere.</p>
+
+<section class="card">
+  <h2>1 · Your signing key <span class="mute">(one time)</span></h2>
+  <p>Displays only install updates signed with this key. Create it once, keep the file safe, and send only the <b>public key</b> (shown below) to Claude to build into the firmware.</p>
+  <div class="row"><button id="mk">Create signing key</button><span id="mkmsg" class="mute"></span></div>
+  <div id="pubbox" hidden>
+    <p style="margin-top:12px"><b>Public key</b> (safe to share):</p>
+    <textarea id="pub" rows="3" readonly></textarea>
+    <div class="row"><button class="sec" id="copy">Copy public key</button><span id="fp" class="mono mute"></span></div>
+  </div>
+  <p class="warn" style="margin-top:12px"><b>Back up the key file</b> (<code>parasha-signing-key.pem</code>) on a USB stick or in a password manager. If it's lost, displays can't be updated over WiFi until each one is reflashed by USB. Never upload it to GitHub.</p>
+</section>
+
+<section class="card">
+  <h2>2 · Make a release</h2>
+  <label class="file"><b>Signing key file</b> (<code>parasha-signing-key.pem</code>)<input type="file" id="key" accept=".pem"></label>
+  <label class="file"><b>Firmware files</b> from Claude (the 4.2" and/or 7.5" <code>.bin</code>; you can select both)<input type="file" id="bins" accept=".bin" multiple></label>
+  <div id="info"></div>
+  <div class="row"><button id="go" disabled>Sign and create release files</button></div>
+  <div id="out" hidden>
+    <p style="margin-top:14px"><b>Download these files</b>, then publish them on GitHub:</p>
+    <div class="row" id="dls"></div>
+    <ol id="steps"></ol>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Promote a test release to everyone</h2>
+  <ol>
+    <li>Open the release on GitHub → <b>Edit</b> (pencil icon).</li>
+    <li>Untick <b>Set as a pre-release</b>, tick <b>Set as the latest release</b>.</li>
+    <li><b>Update release</b>. Every display installs it at its next 6 AM check.</li>
+  </ol>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const REPO="kreatorplace/parasha-firmware";
+const b64=a=>btoa(String.fromCharCode(...new Uint8Array(a)));
+const unb64u=s=>Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")+"===".slice((s.length+3)%4)),c=>c.charCodeAt(0));
+const hex=a=>[...new Uint8Array(a)].map(x=>x.toString(16).padStart(2,"0")).join("");
+const sha=async d=>hex(await crypto.subtle.digest("SHA-256",d));
+function save(name,data,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:type||"application/octet-stream"}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}
+async function pubOf(key){const j=await crypto.subtle.exportKey("jwk",key);const p=new Uint8Array(65);p[0]=4;p.set(unb64u(j.x),1);p.set(unb64u(j.y),33);return p;}
+async function showPub(p){$("pub").value=b64(p);$("fp").textContent="Key fingerprint: "+(await sha(p)).slice(0,8).toUpperCase();$("pubbox").hidden=false;}
+
+$("mk").onclick=async()=>{
+  if(!confirm("Create a NEW signing key? Only do this once. A new key won't work with displays already built for the old one."))return;
+  const kp=await crypto.subtle.generateKey({name:"ECDSA",namedCurve:"P-256"},true,["sign","verify"]);
+  const der=await crypto.subtle.exportKey("pkcs8",kp.privateKey);
+  const pem="-----BEGIN PRIVATE KEY-----\n"+b64(der).match(/.{1,64}/g).join("\n")+"\n-----END PRIVATE KEY-----\n";
+  save("parasha-signing-key.pem",pem,"application/x-pem-file");
+  $("mkmsg").textContent="Saved parasha-signing-key.pem to your Downloads.";
+  await showPub(await pubOf(kp.privateKey));
+};
+$("copy").onclick=()=>{navigator.clipboard.writeText($("pub").value);$("copy").textContent="Copied";};
+
+let KEY=null,BUILDS=[];
+async function loadKey(f){
+  const t=await f.text();const m=t.match(/-----BEGIN PRIVATE KEY-----([\s\S]+?)-----END PRIVATE KEY-----/);
+  if(!m)throw new Error("This isn't the signing key file.");
+  const der=Uint8Array.from(atob(m[1].replace(/\s+/g,"")),c=>c.charCodeAt(0));
+  return crypto.subtle.importKey("pkcs8",der,{name:"ECDSA",namedCurve:"P-256"},true,["sign"]);
+}
+function findTag(bytes){   // "Parasha Display 0.6.1 model 75"
+  const s=new TextDecoder("latin1").decode(bytes);const m=s.match(/Parasha Display (\d+(?:\.\d+){1,3}) model (42|75)/);
+  return m?{version:m[1],model:m[2]}:null;
+}
+async function refresh(){
+  const info=[];let ok=true;
+  try{KEY=$("key").files[0]?await loadKey($("key").files[0]):null;}catch(e){KEY=null;info.push(`<p class="bad">${e.message}</p>`);ok=false;}
+  if(KEY){const p=await pubOf(KEY);info.push(`<p class="ok">Key loaded · fingerprint <span class="mono">${(await sha(p)).slice(0,8).toUpperCase()}</span></p>`);}
+  BUILDS=[];
+  for(const f of $("bins").files){
+    const buf=await f.arrayBuffer(),t=findTag(new Uint8Array(buf));
+    if(!t){info.push(`<p class="bad">${f.name}: not a Parasha Display firmware file.</p>`);ok=false;continue;}
+    if(BUILDS.some(b=>b.model===t.model)){info.push(`<p class="bad">Two files for the same model (${t.model==="75"?"7.5\"":"4.2\""}).</p>`);ok=false;continue;}
+    BUILDS.push({...t,buf,name:f.name});
+  }
+  if(BUILDS.length){
+    const vs=new Set(BUILDS.map(b=>b.version));
+    if(vs.size>1){info.push(`<p class="bad">The files are different versions (${[...vs].join(", ")}).</p>`);ok=false;}
+    info.push("<table>"+BUILDS.map(b=>`<tr><td>${b.model==="75"?"7.5\"":"4.2\""}</td><td>version ${b.version}</td><td class="mute">${b.name} · ${(b.buf.byteLength/1048576).toFixed(2)} MB</td></tr>`).join("")+"</table>");
+  }
+  $("info").innerHTML=info.join("");
+  $("go").disabled=!(ok&&KEY&&BUILDS.length);
+}
+$("key").onchange=refresh;$("bins").onchange=refresh;
+
+$("go").onclick=async()=>{
+  const ver=BUILDS[0].version,tag="v"+ver,man={product:"parasha-display",version:ver,tag,builds:{}};
+  const files=[];
+  for(const b of BUILDS){
+    const h=await sha(b.buf),file=b.model==="75"?"parasha-7.5in.bin":"parasha-4.2in.bin";
+    const sig=await crypto.subtle.sign({name:"ECDSA",hash:"SHA-256"},KEY,new TextEncoder().encode(`PDFW1|${b.model}|${ver}|${h}`));
+    man.builds[b.model]={file,size:b.buf.byteLength,sha256:h,sig:b64(sig)};
+    files.push([file,b.buf]);
+  }
+  files.push(["manifest.json",JSON.stringify(man,null,2)+"\n"]);
+  $("dls").innerHTML="";
+  for(const [n,d] of files){const bt=document.createElement("button");bt.className="sec";bt.textContent="⬇ "+n;bt.onclick=()=>save(n,d,n.endsWith(".json")?"application/json":undefined);$("dls").appendChild(bt);}
+  const all=document.createElement("button");all.textContent="Download all";all.onclick=()=>files.forEach(([n,d],i)=>setTimeout(()=>save(n,d,n.endsWith(".json")?"application/json":undefined),i*400));$("dls").prepend(all);
+  $("steps").innerHTML=`
+    <li>Open <a href="https://github.com/${REPO}/releases/new" target="_blank" rel="noopener">github.com/${REPO}/releases/new</a>.</li>
+    <li><b>Choose a tag</b> → type <code>${tag}</code> → <b>Create new tag</b>. Title: <code>${tag}</code>.</li>
+    <li>Drag in the ${files.length} downloaded files (${files.map(f=>"<code>"+f[0]+"</code>").join(", ")}).</li>
+    <li><b>Test first?</b> Tick <b>Set as a pre-release</b>. Only displays switched to the test channel (Demo page) install it.<br>
+        <b>For everyone:</b> leave it unticked and keep <b>Set as the latest release</b> ticked.</li>
+    <li><b>Publish release</b>. Displays install it at their next 6 AM check, or right away when unplugged and plugged back in.</li>`;
+  $("out").hidden=false;
+};
+</script>
+</body>
+</html>
