@@ -1,6 +1,6 @@
 {
   "name": "Parasha Display 4.2\"",
-  "version": "VERSION",
+  "version": "0.6.0",
   "new_install_prompt_erase": true,
   "builds": [
     {
