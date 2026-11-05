@@ -134,7 +134,8 @@ $("go").onclick=async()=>{
     <li><b>Choose a tag</b> → type <code>${tag}</code> → <b>Create new tag</b>. Title: <code>${tag}</code>.</li>
     <li>Drag in the ${files.length} downloaded files (${files.map(f=>"<code>"+f[0]+"</code>").join(", ")}).</li>
     <li><b>Test first?</b> Tick <b>Set as a pre-release</b>. Only displays switched to the test channel (Demo page) install it.<br>
-        <b>For everyone:</b> leave it unticked and keep <b>Set as the latest release</b> ticked.</li>
+        <b>For everyone:</b> Release label <b>None</b>, and make sure <b>Set as the latest release</b> is <b>ticked</b>.
+        Displays only install the release GitHub marks <b>Latest</b>.</li>
     <li><b>Publish release</b>. Displays install it at their next 6 AM check, or right away when unplugged and plugged back in.</li>`;
   $("out").hidden=false;
 };
