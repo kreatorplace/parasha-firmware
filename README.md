@@ -6,16 +6,15 @@ Software for the Kreator Place Parasha Display (Seeed XIAO ESP32-C3 with a 4.2" 
 - **Updates over WiFi:** each display checks this repository's **Releases** when it's plugged in and every day at 6 AM.
   It installs a release only if it's newer than what's running and signed with the Kreator Place key.
 
-## Publishing an update
+## Publishing an update (automatic)
 
-1. Open the [release tool](https://kreatorplace.github.io/parasha-firmware/release-tool.html), load the signing key file and the new `.bin` files.
-2. Click **Sign and create release files** and download the 3 files.
-3. **Releases → Draft a new release**, tag `v<version>`, drag in the 3 files.
-   - **Test first:** tick *Set as a pre-release*. Only displays switched to the test channel (Demo page) install it.
-   - **Everyone:** keep *Set as the latest release* ticked.
-4. **Publish release.**
+New firmware is pushed to `incoming/` (`parasha-4.2in.bin`, `parasha-7.5in.bin`, `NOTES.md`).
+The **Publish release** workflow (Actions tab) then signs it with the `SIGNING_KEY` secret, publishes the
+release as **Latest** and updates the install page. Displays install it when plugged in, or at 6 AM.
 
-To move a test release to everyone: **Edit** the release, untick *pre-release*, tick *latest*, **Update release**.
+The workflow stops with an error if the secret isn't the key built into the displays (fingerprint BE6C655B).
+The [release tool](https://kreatorplace.github.io/parasha-firmware/release-tool.html) still works for
+signing by hand.
 
 ## What's in a release
 

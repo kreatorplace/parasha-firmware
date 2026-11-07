@@ -1,0 +1,45 @@
+# Publishes a signed release whenever new firmware lands in incoming/.
+# Needs one repository secret: SIGNING_KEY = the full contents of parasha-signing-key.pem
+name: Publish release
+on:
+  push:
+    branches: [main]
+    paths: ["incoming/*.bin", "incoming/NOTES.md"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: release
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install cryptography==43.0.3
+      - name: Sign
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: python3 tools/sign_release.py incoming out
+      - name: Publish release (Latest) and update the install page
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VER=$(cat out/VERSION)
+          if gh release view "v$VER" > /dev/null 2>&1; then
+            echo "v$VER is already published, nothing to do."; exit 0
+          fi
+          NOTES=incoming/NOTES.md; [ -f "$NOTES" ] || { echo "Update to $VER" > /tmp/notes.md; NOTES=/tmp/notes.md; }
+          gh release create "v$VER" out/manifest.json out/parasha-*.bin --title "v$VER" --notes-file "$NOTES" --latest
+          for M in 42 75; do
+            N=$([ $M = 75 ] && echo 7.5 || echo 4.2)
+            [ -f "out/parasha-${N}in.bin" ] || continue
+            cp "out/parasha-${N}in.bin" "docs/install/$M/parasha-${N}in.bin"
+            sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VER\"/" "docs/install/$M/manifest.json"
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/install
+          git diff --cached --quiet || { git commit -m "Install page: v$VER"; git push; }
+          echo "Published v$VER"
