@@ -1,2 +1,2 @@
-- 7.5": Hebrew dates for every day in the week strip (the calendar is now downloaded from a week back).
-- Small version number on the screen; battery icon (v0.6.3).
+- 7.5": fixed the calendar coming out incomplete (missing parasha, candle lighting, Hebrew dates; wrong Rosh Chodesh count). The calendar is now read as it downloads instead of all at once, which needed too much memory next to the 7.5" screen.
+- A damaged or cut-off download is ignored; the display keeps its last good calendar.
