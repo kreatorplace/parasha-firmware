@@ -1,0 +1,2 @@
+- 7.5": Hebrew dates for every day in the week strip (the calendar is now downloaded from a week back).
+- Small version number on the screen; battery icon (v0.6.3).
