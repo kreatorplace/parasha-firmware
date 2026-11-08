@@ -1,3 +1,1 @@
-- Error screens show the WiFi signal strength, or why WiFi failed (network not found, password not accepted, router not answering).
-- WiFi: second try at full transmit power when the first (low power) try fails; the web clock and the calendar download are retried.
-- A display whose calendar download fails can still install updates.
+- 4.2": larger version number at the bottom right (was hard to read).
