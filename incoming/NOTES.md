@@ -1,2 +1,3 @@
-- 7.5": fixed the calendar coming out incomplete (missing parasha, candle lighting, Hebrew dates; wrong Rosh Chodesh count). The calendar is now read as it downloads instead of all at once, which needed too much memory next to the 7.5" screen.
-- A damaged or cut-off download is ignored; the display keeps its last good calendar.
+- Error screens show the WiFi signal strength, or why WiFi failed (network not found, password not accepted, router not answering).
+- WiFi: second try at full transmit power when the first (low power) try fails; the web clock and the calendar download are retried.
+- A display whose calendar download fails can still install updates.
