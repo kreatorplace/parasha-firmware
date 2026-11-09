@@ -58,7 +58,7 @@ table{border-collapse:collapse;width:100%;margin:8px 0}td{padding:5px 8px;border
   <ol>
     <li>Open the release on GitHub → <b>Edit</b> (pencil icon).</li>
     <li>Untick <b>Set as a pre-release</b>, tick <b>Set as the latest release</b>.</li>
-    <li><b>Update release</b>. Every display installs it at its next 6 AM check.</li>
+    <li><b>Update release</b>. Every display installs it at its next check (just after midnight).</li>
   </ol>
 </section>
 </main>
@@ -136,7 +136,7 @@ $("go").onclick=async()=>{
     <li><b>Test first?</b> Tick <b>Set as a pre-release</b>. Only displays switched to the test channel (Demo page) install it.<br>
         <b>For everyone:</b> Release label <b>None</b>, and make sure <b>Set as the latest release</b> is <b>ticked</b>.
         Displays only install the release GitHub marks <b>Latest</b>.</li>
-    <li><b>Publish release</b>. Displays install it at their next 6 AM check, or right away when unplugged and plugged back in.</li>`;
+    <li><b>Publish release</b>. Displays install it at their next check (just after midnight), or right away when unplugged and plugged back in.</li>`;
   $("out").hidden=false;
 };
 </script>

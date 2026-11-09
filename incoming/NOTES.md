@@ -1,1 +1,1 @@
-- 4.2": larger version number at the bottom right (was hard to read).
+- The new day now shows from midnight: the daily refresh moved from 6:00 AM to 12:01 AM (before, the display showed the previous day until 6 AM). Updates are checked at the same time.
