@@ -1,1 +1,2 @@
-- The new day now shows from midnight: the daily refresh moved from 6:00 AM to 12:01 AM (before, the display showed the previous day until 6 AM). Updates are checked at the same time.
+- Portal: each display checks in daily (model, version, battery, WiFi signal, last problem) and receives its QR link, message line, test-update setting and family city / zmanim from the portal.
+- The display ID is shown on the settings page and error screens.
