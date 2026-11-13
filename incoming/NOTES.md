@@ -1,2 +1,1 @@
-- Portal: each display checks in daily (model, version, battery, WiFi signal, last problem) and receives its QR link, message line, test-update setting and family city / zmanim from the portal.
-- The display ID is shown on the settings page and error screens.
+- Home city anywhere in the world: on the settings page, choose a home city (about 540 cities) instead of a US ZIP code. Correct local time and daylight saving for every city; Israeli cities use the Israeli holiday and Torah-reading schedule.
