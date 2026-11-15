@@ -1,1 +1,2 @@
-- Home city anywhere in the world: on the settings page, choose a home city (about 540 cities) instead of a US ZIP code. Correct local time and daylight saving for every city; Israeli cities use the Israeli holiday and Torah-reading schedule.
+- 7.5": the city is shown after the date in the header.
+- Fixed: on the 1st of each Hebrew month, Tehillim showed "1?" instead of "1-9".
