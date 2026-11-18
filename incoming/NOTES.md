@@ -1,2 +1,2 @@
-- 7.5": the city is shown after the date in the header.
-- Fixed: on the 1st of each Hebrew month, Tehillim showed "1?" instead of "1-9".
+- New, optional: Leilui Nishmat line at the very bottom of the 4.2" and 7.5" screens: the name, a small candle and the next yahrzeit date (Hebrew and regular). Set it on the settings page: name (Hebrew or English), date of passing, "after sunset", and "Show on the display". The line turns white-on-black the day before and on the yahrzeit.
+- The yahrzeit is calculated on the display itself (same rules as Hebcal), no internet needed for it.
