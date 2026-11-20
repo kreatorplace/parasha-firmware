@@ -1,2 +1,1 @@
-- Settings page: candle lighting and havdalah take any number of minutes (e.g. 43), with a clear explanation (candle lighting = sunset minus the minutes, havdalah = sunset plus) and this week's real sunset and times as an example.
-- Removed the fixed-time fields added in v0.7.4.
+- More reliable automatic updates: the daily update check no longer depends on waking exactly at 00:01 (the internal sleep timer can drift). It runs once per day on the first wake that reaches GitHub, and if WiFi or GitHub fails it tries again on later wakes that day (up to 4 times).
