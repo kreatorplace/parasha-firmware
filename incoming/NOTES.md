@@ -1,1 +1,1 @@
-- More reliable automatic updates: the daily update check no longer depends on waking exactly at 00:01 (the internal sleep timer can drift). It runs once per day on the first wake that reaches GitHub, and if WiFi or GitHub fails it tries again on later wakes that day (up to 4 times).
+- Fix: when calendar downloads keep failing and the saved calendar no longer covers this week, the display now shows "Can't download the calendar" with the reason (and retries every 30 minutes), instead of a week with no parasha and no times.
