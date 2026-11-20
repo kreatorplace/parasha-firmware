@@ -1,2 +1,2 @@
-- New, optional: Leilui Nishmat line at the very bottom of the 4.2" and 7.5" screens: the name, a small candle and the next yahrzeit date (Hebrew and regular). Set it on the settings page: name (Hebrew or English), date of passing, "after sunset", and "Show on the display". The line turns white-on-black the day before and on the yahrzeit.
-- The yahrzeit is calculated on the display itself (same rules as Hebcal), no internet needed for it.
+- New, optional: fixed candle-lighting and havdalah times (for example, your shul's schedule), on the settings page. A fixed candle-lighting time is used only when it is before sunset, and a fixed havdalah time only when it is after sunset; otherwise that week shows the calculated time. Yom Tov times are always calculated.
+- Settings page: clearer explanation of the minutes (candle lighting = sunset minus, havdalah = sunset plus), with this week's real sunset and times as an example.
