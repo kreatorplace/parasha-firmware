@@ -1,1 +1,3 @@
-- Fix: when calendar downloads keep failing and the saved calendar no longer covers this week, the display now shows "Can't download the calendar" with the reason (and retries every 30 minutes), instead of a week with no parasha and no times.
+- Weekdays (until Friday): instead of "X days until Shabbat", a quote: Pirkei Avot, Rambam, and Rashi of the week's parasha, in English and Hebrew in turn. A new one every 4 hours. The candle-lighting time stays on the line under the quote.
+- New Shabbat / Yom Tov screen: white on black with delicate corner ornaments and no QR code. Shows the day's times (candle lighting, latest Shema, chatzot, mincha gedola, sunset, havdalah, and second-day candles on Yom Tov) with the next one highlighted.
+- The display no longer sleeps until havdalah: it updates itself (offline, no internet) at each of those times.
