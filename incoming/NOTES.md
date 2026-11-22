@@ -1,3 +1,3 @@
-- Weekdays (until Friday): instead of "X days until Shabbat", a quote: Pirkei Avot, Rambam, and Rashi of the week's parasha, in English and Hebrew in turn. A new one every 4 hours. The candle-lighting time stays on the line under the quote.
-- New Shabbat / Yom Tov screen: white on black with delicate corner ornaments and no QR code. Shows the day's times (candle lighting, latest Shema, chatzot, mincha gedola, sunset, havdalah, and second-day candles on Yom Tov) with the next one highlighted.
-- The display no longer sleeps until havdalah: it updates itself (offline, no internet) at each of those times.
+- Spanish: new setting "Language / Idioma" on the settings page. In Spanish the whole screen changes: days and months, Shabbat and Yom Tov screens, zmanim, Torah books and haftarah, the daily Rambam topic, the family city line, the Leilui Nishmat line, messages and the setup screens. The settings page itself also switches to Spanish.
+- Weekday quotes in Spanish when the display is set to Spanish (Pirkei Avot for now; more as they are translated).
+- Update problems are now reported: if a download fails, the display saves the reason, sends it with its next check-in, and shows it on the settings start page ("Last update attempt").
