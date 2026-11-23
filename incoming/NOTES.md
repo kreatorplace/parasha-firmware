@@ -1,3 +1,4 @@
-- Spanish: new setting "Language / Idioma" on the settings page. In Spanish the whole screen changes: days and months, Shabbat and Yom Tov screens, zmanim, Torah books and haftarah, the daily Rambam topic, the family city line, the Leilui Nishmat line, messages and the setup screens. The settings page itself also switches to Spanish.
-- Weekday quotes in Spanish when the display is set to Spanish (Pirkei Avot for now; more as they are translated).
-- Update problems are now reported: if a download fails, the display saves the reason, sends it with its next check-in, and shows it on the settings start page ("Last update attempt").
+- 4.2": the city now appears at the top, after the date ("November 25, 2026 · Miami"). The bottom line keeps only the Tehillim and the version.
+- Leilui Nishmat line: its own band, with a fine double rule above it and a small ornament at each end. On the yahrzeit and the day before it is white on black.
+- Weekdays (Sunday–Thursday): the Shabbat time no longer appears under the quote. The Shabbat times panel appears from Friday.
+- Spanish: "MAÑANA" in place of "TOMORROW" on the next-zman line and the 7.5" zmanim heading.
