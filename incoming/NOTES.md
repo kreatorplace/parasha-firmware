@@ -1,4 +1,4 @@
-- 4.2": the city now appears at the top, after the date ("November 25, 2026 · Miami"). The bottom line keeps only the Tehillim and the version.
-- Leilui Nishmat line: its own band, with a fine double rule above it and a small ornament at each end. On the yahrzeit and the day before it is white on black.
-- Weekdays (Sunday–Thursday): the Shabbat time no longer appears under the quote. The Shabbat times panel appears from Friday.
-- Spanish: "MAÑANA" in place of "TOMORROW" on the next-zman line and the 7.5" zmanim heading.
+- Holidays on the weekly screen: Chanukah ("Chanukah · 4 candles tonight", "Chanukah begins Friday night"), Purim, fast days and the other holidays of the week, under the parasha (4.2") or beside the haftarah (7.5"). In Spanish too.
+- The right haftarah on special Shabbatot (Shabbat Chanukah, Shekalim, Zachor, Parah, Rosh Chodesh...). Needs the updated portal (Worker).
+- Quotes are now from Rashi (the week's parasha), the Rambam and the Rebbe. A quote is only shown when it fits the space, so it is never cut short.
+- Short parasha names no longer touch the PESUKIM count.
