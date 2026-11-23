@@ -1,4 +1,3 @@
-- Holidays on the weekly screen: Chanukah ("Chanukah · 4 candles tonight", "Chanukah begins Friday night"), Purim, fast days and the other holidays of the week, under the parasha (4.2") or beside the haftarah (7.5"). In Spanish too.
-- The right haftarah on special Shabbatot (Shabbat Chanukah, Shekalim, Zachor, Parah, Rosh Chodesh...). Needs the updated portal (Worker).
-- Quotes are now from Rashi (the week's parasha), the Rambam and the Rebbe. A quote is only shown when it fits the space, so it is never cut short.
-- Short parasha names no longer touch the PESUKIM count.
+- A new quote three times a day: at midnight, 8 AM and 4 PM. The quotes rotate between Hebrew and English (or Spanish), and between Rashi on the week's parasha and the Rambam or the Rebbe.
+- Many more quotes: 158 in all (was 72). About 3 Rashi for each parasha, and 45 new Rambam passages from Hilchot Teshuvah, De'ot, Yesodei HaTorah and Talmud Torah, each with a Spanish translation.
+- A quote is still only shown when it fits the space, so it is never cut short.
