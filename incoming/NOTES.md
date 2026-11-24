@@ -1,3 +1,2 @@
-- A new quote three times a day: at midnight, 8 AM and 4 PM. The quotes rotate between Hebrew and English (or Spanish), and between Rashi on the week's parasha and the Rambam or the Rebbe.
-- Many more quotes: 158 in all (was 72). About 3 Rashi for each parasha, and 45 new Rambam passages from Hilchot Teshuvah, De'ot, Yesodei HaTorah and Talmud Torah, each with a Spanish translation.
-- A quote is still only shown when it fits the space, so it is never cut short.
+- Quotes now appear only in the display's language: English, or Spanish when the display is set to Spanish. Hebrew-only quotes no longer appear on the weekday screen.
+- Still a new quote at midnight, 8 AM and 4 PM, taken from the display's memory (no internet needed).

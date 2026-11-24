@@ -1,10 +1,14 @@
 # Publishes a signed release whenever new firmware lands in incoming/.
 # Needs one repository secret: SIGNING_KEY = the full contents of parasha-signing-key.pem
+#
+# Test first: with a file incoming/PRERELEASE the release is published as a GitHub pre-release. Only displays
+# set to the test channel install it; the others stay on "Latest", and the install page is not changed.
+# To publish it to everyone, delete incoming/PRERELEASE: the same release becomes Latest and goes on the install page.
 name: Publish release
 on:
   push:
     branches: [main]
-    paths: ["incoming/*.bin", "incoming/NOTES.md"]
+    paths: ["incoming/*.bin", "incoming/NOTES.md", "incoming/PRERELEASE"]
   workflow_dispatch:
 permissions:
   contents: write
@@ -27,11 +31,20 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           VER=$(cat out/VERSION)
-          if gh release view "v$VER" > /dev/null 2>&1; then
-            echo "v$VER is already published, nothing to do."; exit 0
+          if [ -f incoming/PRERELEASE ]; then
+            if gh release view "v$VER" > /dev/null 2>&1; then echo "v$VER is already published, nothing to do."; exit 0; fi
+            NOTES=incoming/NOTES.md; [ -f "$NOTES" ] || { echo "Update to $VER" > /tmp/notes.md; NOTES=/tmp/notes.md; }
+            gh release create "v$VER" out/manifest.json out/parasha-*.bin --title "v$VER (test)" --notes-file "$NOTES" --prerelease
+            echo "Published v$VER as a pre-release (test channel only)"; exit 0
           fi
-          NOTES=incoming/NOTES.md; [ -f "$NOTES" ] || { echo "Update to $VER" > /tmp/notes.md; NOTES=/tmp/notes.md; }
-          gh release create "v$VER" out/manifest.json out/parasha-*.bin --title "v$VER" --notes-file "$NOTES" --latest
+          if gh release view "v$VER" --json isPrerelease -q .isPrerelease 2>/dev/null | grep -q true; then
+            gh release edit "v$VER" --prerelease=false --latest --title "v$VER"     # promote the tested pre-release
+          elif gh release view "v$VER" > /dev/null 2>&1; then
+            echo "v$VER is already published, nothing to do."; exit 0
+          else
+            NOTES=incoming/NOTES.md; [ -f "$NOTES" ] || { echo "Update to $VER" > /tmp/notes.md; NOTES=/tmp/notes.md; }
+            gh release create "v$VER" out/manifest.json out/parasha-*.bin --title "v$VER" --notes-file "$NOTES" --latest
+          fi
           for M in 42 75; do
             N=$([ $M = 75 ] && echo 7.5 || echo 4.2)
             [ -f "out/parasha-${N}in.bin" ] || continue
