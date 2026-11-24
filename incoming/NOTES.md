@@ -1,2 +1,3 @@
-- Quotes now appear only in the display's language: English, or Spanish when the display is set to Spanish. Hebrew-only quotes no longer appear on the weekday screen.
-- Still a new quote at midnight, 8 AM and 4 PM, taken from the display's memory (no internet needed).
+- More Rashi on the weekday screen: at least 3 for every parasha (181 Rashi in all, was 93), including Pekudei, Vayikra, Tzav, Tazria, Achrei Mot and Masei, which had none. Each in English and Spanish, all checked to fit both screens.
+- Quotes appear only in the display's language: English, or Spanish when the display is set to Spanish (from v0.8.5).
+- Still a new quote at midnight, 8 AM and 4 PM, from the display's memory (no internet needed).
