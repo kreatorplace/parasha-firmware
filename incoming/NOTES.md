@@ -1,3 +1,5 @@
-- More Rashi on the weekday screen: at least 3 for every parasha (181 Rashi in all, was 93), including Pekudei, Vayikra, Tzav, Tazria, Achrei Mot and Masei, which had none. Each in English and Spanish, all checked to fit both screens.
-- Quotes appear only in the display's language: English, or Spanish when the display is set to Spanish (from v0.8.5).
-- Still a new quote at midnight, 8 AM and 4 PM, from the display's memory (no internet needed).
+- Shabbat screen: when Shabbat starts and ends in your family city, with the times there and your local time ("Shabbat in Jerusalem: 3:55 PM – 5:14 PM (8:55 AM – 10:14 AM your time)"). Needs the updated portal (Worker).
+- 7.5" with the Leilui Nishmat line: the zmanim no longer run into the QR code, and the column line stops above the week strip.
+- 7.5": in weeks without holidays, the week strip (day and Hebrew date) is centered vertically.
+- 7.5": the zmanim heading no longer gets cut off with long city names (the city is left out when there is no room).
+- Leilui Nishmat line: the small candle no longer touches the double rule above it (4.2" and 7.5").
